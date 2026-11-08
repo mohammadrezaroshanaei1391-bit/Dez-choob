@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dez Choob | دز چوب — فروشگاه محصولات چوبی</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+:root{
+  --brown-dark:#4a2c1a; --brown:#6b4226; --brown-light:#8b5e3c;
+  --cream:#f5efe6; --cream-dark:#e8ddd0; --white:#fff;
+  --accent:#d4a373; --green:#2d6a4f; --red:#c1121f;
+  --shadow:0 2px 12px rgba(74,44,26,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--cream);color:var(--brown-dark);line-height:1.7;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+
+/* HEADER */
+.header{background:var(--brown-dark);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px 20px}
+.hamburger{background:none;border:none;display:flex;flex-direction:column;gap:5px;padding:8px}
+.hamburger span{display:block;width:26px;height:3px;background:var(--cream);border-radius:2px}
+.logo{display:flex;align-items:center;gap:8px;color:var(--cream);font-weight:700;font-size:1.1rem;white-space:nowrap}
+.logo-icon{font-size:1.5rem}
+.search-box{flex:1;position:relative;max-width:500px}
+.search-box input{width:100%;padding:10px 40px 10px 16px;border:none;border-radius:24px;background:var(--cream);font-family:inherit;font-size:.95rem;outline:none}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none}
+
+/* SIDE MENU */
+.side-menu{position:fixed;top:0;right:-300px;width:280px;height:100vh;background:var(--brown-dark);color:var(--cream);z-index:200;transition:right .3s;overflow-y:auto}
+.side-menu.open{right:0}
+.side-menu-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--brown-light);font-weight:700}
+.close-btn{background:none;border:none;color:var(--cream);font-size:1.3rem}
+.side-menu ul{list-style:none;padding:12px 0}
+.side-menu li a{display:block;padding:14px 24px;color:var(--cream);transition:background .2s}
+.side-menu li a:hover{background:var(--brown)}
+.menu-divider{height:1px;background:var(--brown-light);margin:8px 20px}
+.admin-link{color:var(--accent)!important}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.show{opacity:1;pointer-events:auto}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--brown),var(--brown-dark));color:var(--cream);text-align:center;padding:60px 20px;margin-bottom:30px}
+.hero h1{font-size:2rem;margin-bottom:12px}
+.hero p{font-size:1.1rem;opacity:.9}
+
+/* CATEGORIES */
+.categories{max-width:1200px;margin:0 auto 30px;padding:0 20px}
+.categories h2{margin-bottom:16px;font-size:1.4rem}
+.category-grid{display:flex;flex-wrap:wrap;gap:10px}
+.cat-btn{padding:10px 22px;border:2px solid var(--brown-light);background:var(--white);color:var(--brown);border-radius:24px;font-size:.95rem;transition:all .2s}
+.cat-btn:hover,.cat-btn.active{background:var(--brown);color:var(--cream);border-color:var(--brown)}
+
+/* PRODUCTS */
+.products-section{max-width:1200px;margin:0 auto 40px;padding:0 20px}
+.products-section h2{margin-bottom:20px;font-size:1.4rem}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.product-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;cursor:pointer}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 8px 24px rgba(74,44,26,.2)}
+.product-card img,.product-card .img-placeholder{width:100%;height:200px;object-fit:cover;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.product-card-body{padding:14px 16px}
+.product-card-body h3{font-size:1rem;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.price-old{text-decoration:line-through;color:#999;font-size:.85rem}
+.price-new{font-size:1.15rem;font-weight:700;color:var(--red)}
+.price-normal{font-size:1.1rem;font-weight:700;color:var(--brown-dark)}
+.discount-badge{background:var(--red);color:#fff;padding:2px 10px;border-radius:12px;font-size:.8rem;font-weight:700}
+.stock-badge{font-size:.8rem;color:var(--green);margin-top:6px}
+.stock-badge.out{color:var(--red)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:50px 20px;color:var(--brown-light)}
+.empty-state .icon{font-size:3rem;margin-bottom:12px}
+
+/* ABOUT/CONTACT */
+.about,.contact{max-width:1200px;margin:0 auto 30px;padding:30px 20px;background:var(--white);border-radius:12px;box-shadow:var(--shadow)}
+.about h2,.contact h2{margin-bottom:14px;color:var(--brown)}
+
+.footer{background:var(--brown-dark);color:var(--cream);text-align:center;padding:20px;margin-top:40px;font-size:.9rem}
+
+/* PRODUCT DETAIL */
+.detail-wrap{max-width:1000px;margin:30px auto;padding:0 20px}
+.detail-card{background:var(--white);border-radius:12px;padding:30px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.main-image{width:100%;height:380px;object-fit:cover;border-radius:10px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:4rem}
+.thumb-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.thumb-row img{width:70px;height:70px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+.thumb-row img:hover,.thumb-row img.active{border-color:var(--brown)}
+.detail-info h1{font-size:1.5rem;margin-bottom:14px;color:var(--brown-dark)}
+.detail-price-row{margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.detail-price-old{text-decoration:line-through;color:#999;font-size:1rem}
+.detail-price-new{font-size:1.6rem;font-weight:700;color:var(--red)}
+.detail-price-normal{font-size:1.6rem;font-weight:700;color:var(--brown-dark)}
+.detail-meta{font-size:.9rem;margin-bottom:8px;color:var(--brown)}
+.detail-desc{margin-top:20px;padding-top:20px;border-top:1px solid var(--cream-dark);line-height:1.9}
+
+/* BUTTONS */
+.btn{padding:12px 24px;border:none;border-radius:8px;font-size:1rem;font-weight:600;transition:all .2s}
+.btn-primary{background:var(--brown);color:var(--cream)}
+.btn-primary:hover{background:var(--brown-dark)}
+.btn-secondary{background:var(--cream-dark);color:var(--brown-dark)}
+.btn-danger{background:var(--red);color:white}
+
+/* BACK LINK */
+.back-link{display:inline-block;margin:20px;padding:10px 20px;background:var(--brown);color:var(--cream);border-radius:8px;font-size:.9rem}
+
+@media(max-width:700px){
+  .header-inner{flex-wrap:wrap}
+  .logo-text{font-size:.9rem}
+  .search-box{order:3;flex-basis:100%;max-width:none}
+  .hero h1{font-size:1.4rem}
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .product-card img,.product-card .img-placeholder{height:150px}
+  .detail-card{grid-template-columns:1fr;padding:20px}
+  .main-image{height:260px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <button class="hamburger" id="hamburgerBtn" aria-label="منو"><span></span><span></span><span></span></button>
+    <a href="#/" class="logo" onclick="navigate('/');return false;">
+      <span class="logo-icon">🪵</span>
+      <span class="logo-text">Dez Choob | دز چوب</span>
+    </a>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="جستجوی محصولات چوبی..." autocomplete="off">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+</header>
+
+<!-- SIDE MENU -->
+<nav class="side-menu" id="sideMenu">
+  <div class="side-menu-header">
+    <span>Dez Choob | دز چوب</span>
+    <button class="close-btn" onclick="closeMenu()">✕</button>
+  </div>
+  <ul>
+    <li><a href="#/" onclick="navigate('/');closeMenu();return false;">🏠 صفحه اصلی</a></li>
+    <li><a href="#/all" onclick="navigate('all');closeMenu();return false;">📦 همه محصولات</a></li>
+    <li><a href="#/discount" onclick="navigate('discount');closeMenu();return false;">🏷️ محصولات تخفیف‌دار</a></li>
+    <li><a href="#/available" onclick="navigate('available');closeMenu();return false;">✅ محصولات موجود</a></li>
+    <li class="menu-divider"></li>
+    <li><a href="#about" onclick="closeMenu();return false;">📖 درباره ما</a></li>
+    <li><a href="#contact" onclick="closeMenu();return false;">📞 تماس با ما</a></li>
+    <li class="menu-divider"></li>
+    <li><a href="admin.html" class="admin-link">🔐 پنل مدیریت سایت</a></li>
+  </ul>
+</nav>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- MAIN VIEW -->
+<main id="app"></main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© ۲۰۲۵ Dez Choob | دز چوب — تمامی حقوق محفوظ است.</p>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============================================
+   Dez Choob | دز چوب — تنظیمات
+   ⚠️ این دو مقدار را جایگزین کن:
+============================================ */
+const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ============================================
+   Utilities
+============================================ */
+function esc(s){return s?String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])):''}
+function fmt(n){return Number(n||0).toLocaleString('fa-IR')}
+function finalPrice(price,disc){return disc>0?Math.round(price*(1-disc/100)):price}
+function imgUrl(images,idx=0){
+  if(!images||!images.length)return '';
+  const img=images[idx];
+  if(typeof img==='string'&&img.startsWith('http'))return img;
+  return db.storage.from('product-images').getPublicUrl(img).data.publicUrl;
+}
+
+/* ============================================
+   State
+============================================ */
+let ALL=[], searchTerm='', currentFilter='all', currentCategory='all';
+let currentProductId=null;
+
+/* ============================================
+   Menu
+============================================ */
+function openMenu(){document.getElementById('sideMenu').classList.add('open');document.getElementById('overlay').classList.add('show')}
+function closeMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
+document.getElementById('hamburgerBtn').addEventListener('click',openMenu);
+
+/* ============================================
+   Load products
+============================================ */
+async function loadProducts(){
+  const {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});
+  if(error){console.error(error);ALL=[];}
+  else ALL=data||[];
+  render();
+}
+
+/* ============================================
+   Router
+============================================ */
+function navigate(view){
+  if(view==='/'){window.location.hash='';currentFilter='all';currentProductId=null;render();}
+  else if(view==='all'){currentFilter='all';currentProductId=null;window.location.hash='#/all';render();}
+  else if(view==='discount'){currentFilter='discount';currentProductId=null;window.location.hash='#/discount';render();}
+  else if(view==='available'){currentFilter='available';currentProductId=null;window.location.hash='#/available';render();}
+}
+window.addEventListener('hashchange',()=>{
+  const hash=window.location.hash.replace('#/','');
+  if(hash.startsWith('product/')){currentProductId=hash.split('/')[1];renderProduct();}
+  else if(hash===''||hash==='all'||hash==='discount'||hash==='available'){
+    currentFilter=hash===''?'all':hash;
+    currentProductId=null;
+    render();
+  }
+});
+
+/* ============================================
+   Render dispatch
+============================================ */
+function render(){
+  if(currentProductId)return renderProduct();
+  renderHome();
+}
+
+/* ============================================
+   Home page
+============================================ */
+function createCard(p){
+  const card=document.createElement('div');
+  card.className='product-card';
+  card.onclick=()=>{currentProductId=p.id;window.location.hash='#/product/'+p.id;renderProduct();};
+  const hasDisc=p.discount_percent>0;
+  const url=imgUrl(p.images);
+  card.innerHTML=`
+    ${url?`<img src="${url}" alt="${esc(p.name)}" loading="lazy">`:'<div class="img-placeholder">🪵</div>'}
+    <div class="product-card-body">
+      <h3>${esc(p.name)}</h3>
+      <div class="price-row">
+        ${hasDisc
+          ?`<span class="price-old">${fmt(p.price)} تومان</span>
+             <span class="price-new">${fmt(finalPrice(p.price,p.discount_percent))} تومان</span>
+             <span class="discount-badge">${p.discount_percent}٪</span>`
+          :`<span class="price-normal">${fmt(p.price)} تومان</span>`}
+      </div>
+      <div class="stock-badge ${p.stock>0?'':'out'}">${p.stock>0?'✅ موجود':'❌ ناموجود'}</div>
+    </div>`;
+  return card;
+}
+
+function renderHome(){
+  const app=document.getElementById('app');
+
+  // اگر صفحه محصول باز است، برگرد
+  if(currentProductId){renderProduct();return;}
+
+  const showHome=!searchTerm&&currentCategory==='all'&&currentFilter==='all';
+
+  if(showHome){
+    app.innerHTML=`
+      <section class="hero">
+        <h1>به فروشگاه دز چوب خوش آمدید</h1>
+        <p>محصولات چوبی دست‌ساز با کیفیت ایرانی</p>
+      </section>
+      <section class="categories">
+        <h2>دسته‌بندی محصولات</h2>
+        <div class="category-grid" id="catGrid">
+          <button class="cat-btn ${currentCategory==='all'?'active':''}" data-cat="all">همه</button>
+          <button class="cat-btn ${currentCategory==='دکوری'?'active':''}" data-cat="دکوری">دکوری</button>
+          <button class="cat-btn ${currentCategory==='آشپزخانه'?'active':''}" data-cat="آشپزخانه">آشپزخانه</button>
+          <button class="cat-btn ${currentCategory==='اداری'?'active':''}" data-cat="اداری">اداری</button>
+          <button class="cat-btn ${currentCategory==='هدیه'?'active':''}" data-cat="هدیه">هدیه</button>
+        </div>
+      </section>
+      <section class="products-section"><h2>محصولات جدید</h2><div class="product-grid" id="newGrid"></div></section>
+      <section class="products-section"><h2>محصولات تخفیف‌دار</h2><div class="product-grid" id="discGrid"></div></section>
+      <section class="about"><h2>درباره دز چوب</h2><p>دز چوب با عشق به طبیعت و هنر چوب، محصولاتی دست‌ساز و باکیفیت ارائه می‌دهد. هر قطعه چوب داستانی دارد و ما آن را به خانه شما می‌آوریم.</p></section>
+      <section class="contact"><h2>تماس با ما</h2><p>📧 ایمیل: info@dezchoob.com</p><p>📱 تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p><p>📍 آدرس: تهران، خیابان ولیعصر</p></section>
+    `;
+    bindCats();
+    renderHomeSections();
+  } else {
+    renderResults(app);
+  }
+}
+
+function renderHomeSections(){
+  const newGrid=document.getElementById('newGrid');
+  const discGrid=document.getElementById('discGrid');
+  const newSection=newGrid?.closest('.products-section');
+  const discSection=discGrid?.closest('.products-section');
+
+  if(!ALL.length){
+    if(newSection){
+      newGrid.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><div class="icon">🪵</div><p>هنوز محصولی ثبت نشده است.</p><p style="font-size:.9rem;">به فروشگاه دز چوب خوش آمدید</p></div>';
+      newSection.querySelector('h2').style.display='none';
+    }
+    if(discSection)discSection.style.display='none';
+    return;
+  }
+  if(newSection){
+    newSection.querySelector('h2').style.display='block';
+    newGrid.innerHTML='';
+    ALL.slice(0,8).forEach(p=>newGrid.appendChild(createCard(p)));
+  }
+  if(discSection){
+    const list=ALL.filter(p=>p.discount_percent>0).slice(0,8);
+    if(!list.length){discSection.style.display='none';}
+    else{discSection.style.display='block';discGrid.innerHTML='';list.forEach(p=>discGrid.appendChild(createCard(p)));}
+  }
+}
+
+function bindCats(){
+  document.querySelectorAll('.cat-btn').forEach(btn=>{
+    btn.onclick=()=>{
+      currentCategory=btn.dataset.cat;
+      renderHome();
+    };
+  });
+}
+
+/* ============================================
+   Search / Filter results
+============================================ */
+function renderResults(app){
+  let list=[...ALL];
+  if(searchTerm){
+    const t=searchTerm.toLowerCase();
+    list=list.filter(p=>p.name.toLowerCase().includes(t)||(p.description||'').toLowerCase().includes(t));
+  }
+  if(currentFilter==='discount')list=list.filter(p=>p.discount_percent>0);
+  if(currentFilter==='available')list=list.filter(p=>p.stock>0);
+  if(currentCategory!=='all')list=list.filter(p=>p.category===currentCategory);
+
+  if(!list.length){
+    app.innerHTML=`<div class="empty-state"><div class="icon">🔍</div><p>محصولی با این مشخصات یافت نشد.</p><a href="#" onclick="navigate('/');return false;" style="display:inline-block;margin-top:16px;padding:10px 20px;background:var(--brown);color:var(--cream);border-radius:8px;">بازگشت به صفحه اصلی</a></div>`;
+    return;
+  }
+  app.innerHTML=`<section class="products-section"><h2>نتایج (${fmt(list.length)} محصول)</h2><div class="product-grid" id="resGrid"></div></section>`;
+  const g=document.getElementById('resGrid');
+  list.forEach(p=>g.appendChild(createCard(p)));
+}
+
+/* ============================================
+   Product detail
+============================================ */
+async function renderProduct(){
+  const app=document.getElementById('app');
+  if(!currentProductId){renderHome();return;}
+  app.innerHTML=`<div class="empty-state"><div class="icon">⏳</div><p>در حال بارگذاری...</p></div>`;
+
+  let p=ALL.find(x=>String(x.id)===String(currentProductId));
+  if(!p){
+    const {data,error}=await db.from('products').select('*').eq('id',currentProductId).single();
+    if(error||!data){
+      app.innerHTML=`<div class="empty-state"><div class="icon">❌</div><p>محصول یافت نشد.</p><a href="#" onclick="navigate('/');return false;" style="display:inline-block;margin-top:16px;padding:10px 20px;background:var(--brown);color:var(--cream);border-radius:8px;">بازگشت</a></div>`;
+      return;
+    }
+    p=data;
+  }
+
+  const imgs=(p.images||[]).map((_,i)=>imgUrl(p.images,i)).filter(Boolean);
+  const hasDisc=p.discount_percent>0;
+  const fp=finalPrice(p.price,p.discount_percent);
+
+  app.innerHTML=`
+    <a href="#" class="back-link" onclick="navigate('/');return false;">← بازگشت به فروشگاه</a>
+    <div class="detail-wrap">
+      <div class="detail-card">
+        <div>
+          ${imgs.length
+            ?`<div class="main-image" id="mainImg" style="background-image:url('${imgs[0]}');background-size:cover;background-position:center;"></div>
+              <div class="thumb-row">
+                ${imgs.map((u,i)=>`<img src="${u}" class="${i===0?'active':''}" onclick="setMain('${u}',this)">`).join('')}
+              </div>`
+            :`<div class="main-image">🪵</div>`}
+        </div>
+        <div class="detail-info">
+          <h1>${esc(p.name)}</h1>
+          <div class="detail-price-row">
+            ${hasDisc
+              ?`<span class="detail-price-old">${fmt(p.price)} تومان</span>
+                 <span class="detail-price-new">${fmt(fp)} تومان</span>
+                 <span class="discount-badge">${p.discount_percent}٪ تخفیف</span>`
+              :`<span class="detail-price-normal">${fmt(p.price)} تومان</span>`}
+          </div>
+          <div class="detail-meta">📂 دسته: ${esc(p.category||'عمومی')}</div>
+          <div class="detail-meta">${p.stock>0?`✅ موجود در انبار (${fmt(p.stock)} عدد)`:'❌ ناموجود'}</div>
+          ${p.description?`<div class="detail-desc">${esc(p.description)}</div>`:''}
+        </div>
+      </div>
+    </div>`;
+}
+
+function setMain(url,el){
+  const m=document.getElementById('mainImg');
+  if(m){m.style.backgroundImage=`url('${url}')`;}
+  document.q
